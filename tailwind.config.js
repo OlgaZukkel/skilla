@@ -33,6 +33,7 @@ export default {
         ui_icon: '#ADBFDF',
         ui_secondary: '#D8E4FB',
         ui_green: '#28A879',
+        ui_accent: '#002CFB',
         ui_light_green: '#DBF8EF',
 
         background: 'hsl(var(--background))',
