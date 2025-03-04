@@ -1,12 +1,13 @@
 import {createMonoHook, useFetch, useLazyFetch} from 'use-mono-hook'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {GetListRequest} from "@/types.js";
 import {mockFunction} from "utils/mockFunction.js";
 import {DateRange} from "react-day-picker";
 
 
 const _useGetData = () => {
-  const [openCalendar, setOpenCalendar] = useState<boolean>(false)
+  const [openCalendar, setOpenCalendar] = useState<boolean>(false);
+  const [sortOrder, setSortOrder] = useState('asc');
   const {data, loading, error} = useFetch({
     url: `https://api.skilla.ru/mango/getList`,
     headers: {'Authorization': 'Bearer testtoken'},
@@ -21,6 +22,14 @@ const _useGetData = () => {
       to: addDays(new Date(2022, 0, 20), 20),
     }*/
   )
+  const SortAudio = useCallback(() => {
+    return filteredData.sort((a, b) => sortOrder === 'asc' ? b.time - a.time : a.time - b.time)
+  }, [filteredData, sortOrder, setSortOrder]);
+
+  useEffect(() => {
+    SortAudio()
+  }, [filteredData, sortOrder, setSortOrder]);
+
   return {
     data: data as GetListRequest,
     loading,
@@ -30,7 +39,10 @@ const _useGetData = () => {
     setInOut,
     filteredData,
     date,
-    setDate
+    setDate,
+    SortAudio,
+    setSortOrder,
+    sortOrder
   }
 }
 

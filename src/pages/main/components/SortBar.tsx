@@ -71,7 +71,6 @@ const SortBar = memo(() => {
             {
               types.map((item, i) => (
                 <div key={i} onClick={() => {
-                  console.log('item.id', item.id)
                 }} className='flex flex-col w-full'>
                   <SelectItem
                     value={JSON.stringify(item)}
@@ -79,7 +78,6 @@ const SortBar = memo(() => {
                     {item.title}
                   </SelectItem>
                 </div>
-
               ))
             }
           </SelectGroup>
