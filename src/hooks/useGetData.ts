@@ -23,7 +23,7 @@ const _useGetData = () => {
     }*/
   )
   const SortAudio = useCallback(() => {
-    return filteredData.sort((a, b) => sortOrder === 'asc' ? b.time - a.time : a.time - b.time)
+    return filteredData?.sort((a, b) => sortOrder === 'asc' ? b.time - a.time : a.time - b.time)
   }, [filteredData, sortOrder, setSortOrder]);
 
   useEffect(() => {
