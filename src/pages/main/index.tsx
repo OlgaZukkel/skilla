@@ -1,6 +1,5 @@
 import {memo} from "react";
 import SortBar from "pages/main/components/SortBar.js";
-import Table from "pages/main/components/Table.js";
 import TableContent from "pages/main/components/Table.js";
 
 const MainPage = memo(() => {

@@ -14,6 +14,7 @@
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
     "lucide-react": "0.473.0",
+    "luxon": "^3.5.0",
     "memoizee": "0.4.17",
     "motion": "11.18.1",
     "react": "19.0.0",
@@ -25,6 +26,7 @@
     "wouter": "3.3.5"
   },
   "devDependencies": {
+    "@types/luxon": "^3.4.2",
     "@types/memoizee": "0.4.11",
     "@types/node": "22.10.10",
     "@types/react": "19.0.8",
