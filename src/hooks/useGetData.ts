@@ -3,11 +3,13 @@ import {useCallback, useEffect, useState} from 'react'
 import {GetListRequest} from "@/types.js";
 import {mockFunction} from "utils/mockFunction.js";
 import {DateRange} from "react-day-picker";
+import {DateTime} from "luxon";
 
 
 const _useGetData = () => {
   const [openCalendar, setOpenCalendar] = useState<boolean>(false);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState(undefined);
+  const [sortOrderTimeCall, setSortOrderTimeCall] = useState('asc');
   const {data, loading, error} = useFetch({
     url: `https://api.skilla.ru/mango/getList`,
     headers: {'Authorization': 'Bearer testtoken'},
@@ -26,9 +28,17 @@ const _useGetData = () => {
     return filteredData?.sort((a, b) => sortOrder === 'asc' ? b.time - a.time : a.time - b.time)
   }, [filteredData, sortOrder, setSortOrder]);
 
+  const SortTimeCall = useCallback(() => {
+    filteredData?.sort((a, b) => sortOrderTimeCall === 'asc' ? new Date(b.date).getTime() - new Date(a.date).getTime() : new Date(a.date).getTime() - new Date(b.date).getTime())
+  }, [filteredData, sortOrderTimeCall, setSortOrderTimeCall]);
+
   useEffect(() => {
-    SortAudio()
-  }, [filteredData, sortOrder, setSortOrder]);
+    SortAudio();
+  }, [sortOrder, setSortOrder,]);
+
+  useEffect(() => {
+    SortTimeCall()
+  }, [sortOrderTimeCall, setSortOrderTimeCall]);
 
   return {
     data: data as GetListRequest,
@@ -42,7 +52,9 @@ const _useGetData = () => {
     setDate,
     SortAudio,
     setSortOrder,
-    sortOrder
+    sortOrder,
+    sortOrderTimeCall,
+    setSortOrderTimeCall,
   }
 }
 

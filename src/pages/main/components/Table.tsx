@@ -17,14 +17,13 @@ const Grade = memo(() => {
   )
 })
 const TableContent = memo(() => {
-  const {filteredData, SortAudio, setSortOrder, sortOrder} = useGetData();
+  const {filteredData, SortAudio, setSortOrder,sortOrderTimeCall, sortOrder, setSortOrderTimeCall} = useGetData();
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes}:${secs.toString().padStart(2, "0")}`;
   };
 
-  console.log('sortedData', SortAudio)
   return (
     <div className='bg-white rounded-[8px]  px-10 max-h-[70vh] overflow-y-auto'>
       <Table>
@@ -38,11 +37,20 @@ const TableContent = memo(() => {
                     className={`flex items-center gap-1 ${i === headers.length - 1 ? 'justify-end' : 'justify-start'}`}>
                     {h}
                     {
+                      (i === 1) && (
+                        <button onClick={() => {
+                          setSortOrderTimeCall(sortOrderTimeCall === 'asc' ? 'desc' : 'asc')
+                        }}>
+                          <Chevron className=''/>
+                        </button>
+                      )
+                    }
+                    {
                       (i === headers.length - 1) && (
                         <button onClick={() => {
                           setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
                         }}>
-                          <Chevron className=''/>
+                          <Chevron/>
                         </button>
                       )
                     }
