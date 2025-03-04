@@ -2,6 +2,7 @@ import {createMonoHook, useFetch, useLazyFetch} from 'use-mono-hook'
 import {useEffect, useState} from 'react'
 import {GetListRequest} from "@/types.js";
 import {mockFunction} from "utils/mockFunction.js";
+import {DateRange} from "react-day-picker";
 
 
 const _useGetData = () => {
@@ -14,7 +15,12 @@ const _useGetData = () => {
   });
   const [inOut, setInOut] = useState<any>();
   const filteredData = data?.results?.filter((item) => inOut === undefined ? data.results : item.in_out === inOut);
-
+  const [date, setDate] = useState<DateRange | undefined>(
+    /*{
+      from: new Date(2022, 0, 20),
+      to: addDays(new Date(2022, 0, 20), 20),
+    }*/
+  )
   return {
     data: data as GetListRequest,
     loading,
@@ -22,7 +28,9 @@ const _useGetData = () => {
     setOpenCalendar,
     inOut,
     setInOut,
-    filteredData
+    filteredData,
+    date,
+    setDate
   }
 }
 

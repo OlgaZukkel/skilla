@@ -9,13 +9,8 @@ import {useGetData} from "hooks/useGetData.js";
 import CalendarIcon from "assets/svg/CalendarIcon.js";
 
 const CalendarPicker = memo(() => {
-  const {openCalendar, setOpenCalendar} = useGetData()
-  const [date, setDate] = useState<DateRange | undefined>(
-    /*{
-      from: new Date(2022, 0, 20),
-      to: addDays(new Date(2022, 0, 20), 20),
-    }*/
-  )
+  const {openCalendar, setOpenCalendar, date, setDate} = useGetData()
+
 
   return (
     <div className={cn("grid gap-2")}>

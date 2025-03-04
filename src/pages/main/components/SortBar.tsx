@@ -11,6 +11,7 @@ import CalendarIcon from "assets/svg/CalendarIcon.js";
 import Chevron from "assets/svg/Chevron.js";
 import CalendarPicker from "pages/main/components/CalendarPicker.js";
 import {useGetData} from "hooks/useGetData.js";
+import {format} from "date-fns";
 
 
 const types = [
@@ -45,11 +46,10 @@ const period = [
   },
 ]
 const SortBar = memo(() => {
-  const {setInOut, inOut} = useGetData();
+  const {setInOut, setOpenCalendar, date, setDate} = useGetData();
   const [typeValue, setTypeValue] = useState(types[0].title);
   const [periodValue, setPeriodValue] = useState(period[0].title);
-  console.log('typeValue', typeValue)
-  const handleFieldValue = (value: string) => {
+  const handleTypeValue = (value: string) => {
     const parsedObject = JSON.parse(value); // *parse the object here
     setInOut(parsedObject.id)
     setTypeValue(parsedObject.title)
@@ -57,11 +57,11 @@ const SortBar = memo(() => {
   return (
     <div className='w-full pb-[3px] flex justify-between items-center'>
       <Select
-        onValueChange={handleFieldValue}
+        onValueChange={handleTypeValue}
       >
         <SelectTrigger
-          className="w-fit border-none shadow-none p-0  font-normal text-sm leading-[20.72px] tracking-[0%] gap-1 [&>svg]:stroke-ui_icon [&>svg]:opacity-100 focus:ring-0 text-[#122945]">
-          <SelectValue className='' placeholder={typeValue}/>
+          className="w-fit border-none shadow-none p-0  font-normal text-sm leading-[20.72px] tracking-[0%] gap-1 [&>svg]:stroke-ui_icon [&>svg]:opacity-100 focus:ring-0 text-[#122945] data-[placeholder]:text-black">
+          <SelectValue placeholder={typeValue}/>
           <Chevron color={'#ADBFDF'}/>
         </SelectTrigger>
         <SelectContent
@@ -86,19 +86,31 @@ const SortBar = memo(() => {
         </SelectContent>
       </Select>
       <Select
+        onOpenChange={() => setOpenCalendar(false)}
         onValueChange={(value) => {
           setPeriodValue(value)
+          setDate(undefined)
         }}
-        value={periodValue}>
+      >
         <SelectTrigger
           className="w-fit border-none shadow-none p-0 !text-[#005FF8] font-normal text-sm leading-[16px] tracking-[0%] gap-2 focus:ring-0 group group-hover:text-ui_accent [&>span]:hover:text-ui_accent">
           <Chevron className='rotate-90 mr-3 fill-ui_icon hover:fill-ui_accent'/>
           <CalendarIcon className='fill-[#ADBFDF] group-hover:fill-ui_accent'/>
-          <SelectValue/>
+          {(date?.from && date.to)
+            ? (
+              <>
+                {format(date.from, "dd.MM.yy")} -{" "}
+                {format(date.to, "dd.MM.yy")}
+              </>)
+            : (
+              <SelectValue placeholder={periodValue}/>
+            )
+          }
+
           <Chevron className='-rotate-90 ml-3 fill-ui_icon hover:fill-ui_accent'/>
         </SelectTrigger>
         <SelectContent
-          className='-top-[36px] px-0 py-1 shadow-[0px_0px_26px_0px_#E9EDF3CC] border-[#EAF0FA] w-[12.75rem]'>
+          className='-top-[36px] px-0 py-1 shadow-[0px_0px_26px_0px_#E9EDF3CC] border-[#EAF0FA] w-full max-w-[14.75rem]'>
           <SelectGroup>
             {
               period.map((item, i) => (
